@@ -259,10 +259,15 @@ represents a state in the comparison.
 Three types of movement are relevant:
 
 ``` text
-Horizontal movement → insertion
-Vertical movement   → deletion
-Diagonal movement   → match
+Horizontal movement (x + 1)        → deletion  of A[x]
+Vertical movement   (y + 1)        → insertion of B[y]
+Diagonal movement   (x + 1, y + 1) → match, only when A[x] == B[y]
 ```
+
+Because `x` indexes A, moving right consumes an element of A without
+producing anything in B, which is a deletion. Moving down produces an
+element of B, which is an insertion. (Earlier drafts of this document
+had these two reversed.)
 
 A diagonal move is free because it represents an element that already
 matches.
@@ -845,28 +850,17 @@ A clean implementation can use:
 myers-diff/
 │
 ├── src/
-│   ├── __init__.py
-│   │
-│   ├── myers.py
-│   │   └── Generic Myers algorithm
-│   │
-│   ├── models.py
-│   │   └── Edit representation
-│   │
-│   ├── line_diff.py
-│   │   └── File/line processing
-│   │
-│   ├── char_diff.py
-│   │   └── Character-level processing
-│   │
-│   ├── pairing.py
-│   │   └── Changed-line pairing
-│   │
-│   ├── renderer.py
-│   │   └── Output formatting
-│   │
-│   └── cli.py
-│       └── Command-line interface
+│   └── diff_engine/          importable package (CLAUDE.md §23),
+│       │                     enables `python -m diff_engine`
+│       ├── __init__.py
+│       ├── __main__.py       delegates to cli.main
+│       ├── myers.py          generic Myers algorithm
+│       ├── models.py         Edit representation
+│       ├── line_diff.py      file/line processing
+│       ├── char_diff.py      character-level processing
+│       ├── pairing.py        changed-line pairing
+│       ├── renderer.py       output formatting
+│       └── cli.py            command-line interface
 │
 ├── tests/
 │   ├── test_myers.py
@@ -1727,6 +1721,115 @@ Definition of done:
 ``` text
 The implementation works on realistic .txt/.py/.c/.cpp/.java/.ts files.
 ```
+
+------------------------------------------------------------------------
+
+# 44. Provisional Contracts and Open Decisions
+
+Several sections defer to an official I/O specification that has not
+been supplied yet. To let P-1..P-3 proceed without guessing silently,
+the following **provisional defaults** apply. Each is isolated in one
+module so it can be changed without touching the Myers core. Every item
+marked OPEN must be confirmed or replaced when the official spec
+arrives.
+
+## 44.1 Tie-breaking (CONFIRMED by developer, 2026-10-02)
+
+Use the classic Myers predecessor rule at every `(D, k)`:
+
+``` text
+if k == -D or (k != D and V[k - 1] < V[k + 1]):
+    x = V[k + 1]        # step down from diagonal k+1  → INSERT
+else:
+    x = V[k - 1] + 1    # step right from diagonal k-1 → DELETE
+```
+
+Consequences:
+
+-   output is fully deterministic (no randomness, no unordered
+    iteration);
+-   within a change region, deletions appear before insertions, which
+    matches Git / GNU diff presentation;
+-   regression oracle: the paper example `A = "ABCABBA"`,
+    `B = "CBABAC"` must give `D = 5` and a fixed golden edit script.
+
+## 44.2 Edit model (decided)
+
+``` python
+Operation = Literal["equal", "insert", "delete"]
+
+@dataclass(frozen=True)
+class Edit(Generic[T]):
+    operation: Operation
+    value: T
+```
+
+`myers_diff(a: Sequence[T], b: Sequence[T]) -> list[Edit[T]]`, where
+`T` only needs `==`. The edit script is ordered so that reading
+`equal` + `delete` values reproduces A, and `equal` + `insert` values
+reproduces B.
+
+## 44.3 Line splitting and newlines (OPEN, provisional default)
+
+-   Files are read as bytes and decoded as UTF-8 (strict). A decode
+    failure is a boundary error (exit code 2), not a silent replacement.
+-   No universal-newline translation: lines are split on `\n` only.
+    A `\r` before `\n` stays part of the line, so an LF↔CRLF change is
+    reported as a change (same as Git without autocrlf).
+-   `str.splitlines()` is **not** used, because it also splits on
+    `\x0b`, `\x0c`, `\u2028`, etc., which would change the line sequence
+    of real source files.
+-   A trailing `\n` terminates the last line; it does not create an
+    extra empty line. Whether each file ends with a newline is recorded
+    separately and rendered as `\ No newline at end of file`.
+
+## 44.4 Changed-line pairing (OPEN, provisional default)
+
+A *change block* is a maximal run of non-equal edits between two equal
+edits. With the tie-breaking rule above, each block is
+`DELETE* INSERT*`. Pair the i-th deleted line with the i-th inserted
+line; surplus lines are rendered as wholly deleted/inserted with no
+character highlights. No similarity scoring.
+
+## 44.5 Output format (OPEN, provisional default)
+
+Part A, one line per edit:
+
+``` text
+  <line>    equal
+- <line>    delete
++ <line>    insert
+```
+
+Part B, same layout, with changed character runs marked inline using
+Git word-diff style markers, which are plain text and testable:
+
+``` text
+- timeout = 80[-0-]0
++ timeout = 80{+8+}0
+```
+
+Character ranges are half-open `[start, end)` indices into the line
+(Python `str` code points, so Unicode is handled per code point).
+ANSI colour output is not implemented unless the official spec asks for
+it.
+
+## 44.6 CLI and exit status (OPEN, provisional default)
+
+``` bash
+python -m diff_engine [--part {A,B}] FILE_A FILE_B
+```
+
+`--part` defaults to `B` (full pipeline). Exit codes follow diff(1):
+`0` no differences, `1` differences found, `2` error (bad arguments,
+missing/unreadable file, decode error). Errors go to stderr.
+
+## 44.7 Memory (decided, revisit only on measurement)
+
+Backtracking stores a snapshot of the live part of `V` (`2D + 1`
+entries) after each `D`. Memory is `O(D²)`, acceptable for the expected
+corpus. The linear-space (middle-snake) variant is implemented only if
+a P-4 measurement shows a real file exceeding limits.
 
 # 45. What You Should Personally Review
 
