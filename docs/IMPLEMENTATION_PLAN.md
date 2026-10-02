@@ -5,24 +5,17 @@ Sources: `CLAUDE.md` (rules, binding) and `myers_diff_project_full_spec.md`
 
 ## 0. Ground rules applied to every phase
 
-- One milestone at a time (P-1 → P-4); one phase = one issue = one branch = one PR.
-- Branch: `m<milestone>/p<milestone>-<issue#>-<slug>` from latest `origin/main`.
-  `p` is the CLAUDE.md roadmap item (P-1..P-4), not the sub-phase, so every
-  phase of milestone 1 uses `m1/p1-…` (e.g. P1.2 → `m1/p1-3-edit-model`).
-- Gate: a phase starts only after its design is approved **and** the previous
-  phase's PR is merged. Its issue is created at that point, one per phase.
-- Before code: mini-spec (Goal / Input / Output / Behaviour / Invariants /
-  Acceptance / Tests) posted on the issue.
-- After code: run tests, report the CLAUDE.md §20 Change Manifest, stop and wait
-  for developer approval. No push / PR without explicit permission. Never merge.
-- Conventional Commits, ≤72-char subject, `Refs #<issue>` footer on every commit,
-  `Closes #<issue>` on the last one.
-- Standard library only at runtime. Only dev dependency: `pytest==9.0.3`
-  (already installed). Property tests use `random.Random(seed)`, not Hypothesis.
+- One milestone at a time (M1 → M2 → M3 → M4); one PR per milestone (all its phases go on the same branch).
+- Branch: `m<milestone>/p<milestone>-<first-issue#>-<slug>` from latest `origin/main` when starting the milestone.
+  Example: M1 (P1.1–P1.5) uses `m1/p1-1-myers-core` for issues #1, #3, #7, etc.
+- Gate: a phase starts only after its design is approved **and** the previous phase's commits are pushed. The milestone PR stays open until its final phase is done.
+- Before each phase: mini-spec (Goal / Input / Output / Behaviour / Invariants / Acceptance / Tests) posted on the issue.
+- After each phase: run tests, report the CLAUDE.md §20 Change Manifest, push the commits, stop and wait for developer approval. Never merge the PR.
+- Conventional Commits, ≤72-char subject, `Refs #<issue>` footer on every commit, `Closes #<issue>` on the last commit of each phase.
+- Standard library only at runtime. Only dev dependency: `pytest==9.0.3` (already installed). Property tests use `random.Random(seed)`, not Hypothesis.
 - No `difflib`, no external diff command in `src/`.
 
-Environment checked: Python 3.13.1, pytest 9.0.3, gh 2.97.0, repo on `main`
-with a single initial commit, remote `origin` on GitHub, no open issues.
+Environment checked: Python 3.13.1, pytest 9.0.3, gh 2.97.0, repo on `main` with a single initial commit, remote `origin` on GitHub, no open issues.
 
 ## 1. Decisions to confirm before P-1 starts
 
@@ -223,29 +216,31 @@ termination, backtracking and tie-breaking.
 
 ---
 
-## 3. Issue list (one issue per phase, created after design approval)
+## 3. Issue and branch list (one issue per phase, one PR per milestone)
 
-| Phase | Issue | PR | Branch | Title |
-|-------|-------|----|--------|-------|
-| P1.1 | #1 | #2 (merged) | `m1/p1-1-scaffolding` | Project scaffolding and CI |
-| P1.2 | #3 | #4 (merged) | `m1/p1-3-edit-model` | Edit model and test oracles |
-| docs | #5 | this PR | `m1/p1-5-plan-branch-names` | Align plan branch names and issue table |
-| P1.3 | TBD | TBD | `m1/p1-<issue#>-forward-search` | Myers forward search |
-| P1.4 | TBD | TBD | `m1/p1-<issue#>-backtracking` | Myers backtracking and public API |
-| P1.5 | TBD | TBD | `m1/p1-<issue#>-adversarial` | Adversarial review of Myers core |
-| P2.1 | TBD | TBD | `m2/p2-<issue#>-line-split` | File reading and line splitting |
-| P2.2 | TBD | TBD | `m2/p2-<issue#>-line-diff` | Line diff and change-block grouping |
-| P2.3 | TBD | TBD | `m2/p2-<issue#>-part-a-render` | Part A renderer and fixtures |
-| P3.1 | TBD | TBD | `m3/p3-<issue#>-pairing` | Changed-line pairing |
-| P3.2 | TBD | TBD | `m3/p3-<issue#>-char-ranges` | Character-level ranges |
-| P3.3 | TBD | TBD | `m3/p3-<issue#>-part-b-render` | Part B renderer |
-| P4.1 | TBD | TBD | `m4/p4-<issue#>-cli` | CLI and exit codes |
-| P4.2 | TBD | TBD | `m4/p4-<issue#>-corpus` | Real-world corpus tests |
-| P4.3 | TBD | TBD | `m4/p4-<issue#>-perf` | Performance measurement |
-| P4.4 | TBD | TBD | `m4/p4-<issue#>-docs` | README and final checklist |
+Phases within the same milestone share one branch and PR. Each phase gets its own issue.
 
-GitHub shares one number sequence between issues and PRs, so future issue
-numbers are filled in when each issue is created.
+| Milestone | Phase | Issue | PR | Branch | Title |
+|-----------|-------|-------|----|--------|-------|
+| M1 | P1.1 | #1 | #2 (merged) | `m1/p1-1-scaffolding` | Project scaffolding and CI |
+| M1 | P1.2 | #3 | #4 (merged) | `m1/p1-3-edit-model` | Edit model and test oracles |
+| docs | - | #5 | #6 (merged) | `m1/p1-5-plan-branch-names` | Align plan branch names and issue table |
+| M1 | P1.3 | #7 | #8 (merged) | `m1/p1-7-forward-search` | Myers forward search |
+| docs | - | TBD | this PR | `m1/p1-docs-workflow` | Update workflow: one PR per milestone |
+| M1 | P1.4 | TBD | TBD | `m1/p1-<issue#>-myers-core` | Myers backtracking and public API |
+| M1 | P1.5 | TBD | same PR | same branch | Adversarial review of Myers core |
+| M2 | P2.1 | TBD | TBD | `m2/p2-<issue#>-line-diff` | File reading and line splitting |
+| M2 | P2.2 | TBD | same PR | same branch | Line diff and change-block grouping |
+| M2 | P2.3 | TBD | same PR | same branch | Part A renderer and fixtures |
+| M3 | P3.1 | TBD | TBD | `m3/p3-<issue#>-char-diff` | Changed-line pairing |
+| M3 | P3.2 | TBD | same PR | same branch | Character-level ranges |
+| M3 | P3.3 | TBD | same PR | same branch | Part B renderer |
+| M4 | P4.1 | TBD | TBD | `m4/p4-<issue#>-cli` | CLI and exit codes |
+| M4 | P4.2 | TBD | same PR | same branch | Real-world corpus tests |
+| M4 | P4.3 | TBD | same PR | same branch | Performance measurement |
+| M4 | P4.4 | TBD | same PR | same branch | README and final checklist |
+
+**Note:** M1's first three phases (P1.1–P1.3) were completed under the old "one PR per phase" workflow and have already been merged. Starting with P1.4, the new workflow applies: all remaining M1 phases (P1.4–P1.5) will share one branch and PR.
 
 ## 4. Risk → mitigation (spec §50)
 
