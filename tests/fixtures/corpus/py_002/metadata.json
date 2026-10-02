@@ -1,0 +1,6 @@
+{
+  "source": "Synthetic fixture representing Python comment insertion",
+  "language": "python",
+  "description": "Added explanatory comment",
+  "expected_D": 1
+}

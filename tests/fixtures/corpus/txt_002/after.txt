@@ -1,0 +1,5 @@
+INFO: Server started
+INFO: Connection opened
+ERROR: Authentication failed
+INFO: Request received
+INFO: Response sent

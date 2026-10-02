@@ -1,0 +1,6 @@
+{
+  "source": "Synthetic fixture representing Python error handling change",
+  "language": "python",
+  "description": "Changed exception to return default value",
+  "expected_D": 2
+}

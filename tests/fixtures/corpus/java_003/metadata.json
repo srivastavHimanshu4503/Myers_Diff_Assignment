@@ -1,0 +1,6 @@
+{
+  "source": "Synthetic fixture representing Java multiple field modifiers",
+  "language": "java",
+  "description": "Made class final, updated version, made field final",
+  "expected_D": 6
+}

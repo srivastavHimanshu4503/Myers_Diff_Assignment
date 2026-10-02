@@ -1,0 +1,6 @@
+{
+  "source": "Synthetic fixture representing C++ method addition",
+  "language": "cpp",
+  "description": "Added getY method",
+  "expected_D": 1
+}

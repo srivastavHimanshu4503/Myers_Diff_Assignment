@@ -1,0 +1,6 @@
+{
+  "source": "Synthetic fixture representing Python import reordering",
+  "language": "python",
+  "description": "Reordered imports alphabetically",
+  "expected_D": 4
+}

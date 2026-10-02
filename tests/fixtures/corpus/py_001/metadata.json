@@ -1,0 +1,8 @@
+{
+  "source": "Synthetic fixture representing typical Python constant change pattern",
+  "language": "python",
+  "description": "Timeout constant changed from 30 to 60",
+  "expected_added": 1,
+  "expected_deleted": 1,
+  "expected_D": 2
+}

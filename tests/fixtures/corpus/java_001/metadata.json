@@ -1,0 +1,6 @@
+{
+  "source": "Synthetic fixture representing Java method rename",
+  "language": "java",
+  "description": "Method renamed from add to sum",
+  "expected_D": 2
+}

@@ -1,0 +1,6 @@
+{
+  "source": "Synthetic fixture representing TypeScript config changes",
+  "language": "typescript",
+  "description": "Updated API URL and timeout values",
+  "expected_D": 4
+}
