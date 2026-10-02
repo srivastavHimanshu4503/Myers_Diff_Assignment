@@ -1,9 +1,9 @@
 {
   "repo": "https://github.com/nlohmann/json",
-  "commit": "cff0a61",
-  "parent": "3926fcaac3e18eee169c3df02f9f68bcab528fcc",
-  "path": "include/nlohmann/detail/input/binary_reader.hpp",
+  "commit": "b54ed188e636357f9e28b650b863de0163361f3f",
+  "parent": "cff0a613696d3fd33964930feba97d0c44cda16e",
+  "path": "tests/src/fuzzer-parse_cbor.cpp",
   "language": "cpp",
-  "description": "Share DOM SAX position handling; fix stale parser and lexer comments (#5731)",
-  "expected_D": 14
+  "description": "Remove test debt: dead guards, discarded results, and unreferenced files (#5732)",
+  "expected_D": 4
 }
