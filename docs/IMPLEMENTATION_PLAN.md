@@ -25,9 +25,9 @@ Environment checked: Python 3.13.1, pytest 9.0.3, gh 2.97.0, repo on `main` with
 | D2 | Newlines / encoding | UTF-8 strict, split on `\n` only, `\r` kept, final-newline flag | P-2 | CONFIRMED 2026-10-02 |
 | D3 | Pairing | i-th delete ↔ i-th insert inside a change block | P-3 | CONFIRMED 2026-10-02 |
 | D4 | Output | `  ` / `- ` / `+ ` prefixes; `[-x-]` / `{+x+}` char markers | P-2, P-3 | CONFIRMED 2026-10-02 |
-| D5 | CLI | `python -m diff_engine [--part {A,B}] A B`; exit 0/1/2 | P-4 | OPEN |
+| D5 | CLI | `python -m diff_engine [--part {A,B}] A B`; exit 0/1/2 | P-4 | CONFIRMED 2026-10-03 |
 
-D1–D4 confirmed. M1, M2, M3 are unblocked. D5 must be settled before P-4.
+All decisions confirmed. M1–M4 unblocked.
 their phase starts. If the official I/O spec arrives, it replaces them.
 
 ## 2. Target layout (built gradually, never ahead of the phase that needs it)
