@@ -12,7 +12,7 @@ This directory contains **36 genuine before/after file pairs** extracted from ac
 | **C (.c, .h)** | **4** | **git/git** |
 | Java (.java) | 4 | openjdk/jdk |
 | JavaScript (.js) | 4 | nodejs/node |
-| **C++ (.hpp, .cpp)** | **3** | **nlohmann/json** |
+| **C++ (.cpp)** | **3** | **nlohmann/json** |
 | **Total** | **36** | **6 repositories** |
 
 All six required file types (.txt, .py, .c, .cpp, .java, .ts) are covered.
@@ -102,7 +102,7 @@ Fixtures were collected from:
 3. **microsoft/TypeScript**: TypeScript files (depth-150 clone)
 4. **openjdk/jdk**: Java files (depth-150 clone)
 5. **nodejs/node**: JavaScript files (depth-150 clone)
-6. **nlohmann/json**: C++ header files (depth-150 clone)
+6. **nlohmann/json**: C++ source files (depth-150 clone)
 
 Extraction process:
 1. Clone repositories with `--depth 150 --single-branch`
