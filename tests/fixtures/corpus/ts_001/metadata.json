@@ -1,6 +1,10 @@
 {
-  "source": "Synthetic fixture representing TypeScript optional property",
+  "id": "ts_001",
+  "repo": "microsoft/TypeScript",
+  "commit": "efbf3b506",
+  "parent": "a4b1410230c7299957ec3f8f8dee4cccc55a4798",
+  "path": "packages/vscode-typescript/src/client.ts",
   "language": "typescript",
-  "description": "Made email field optional",
-  "expected_D": 2
+  "description": "Enable JSX auto-insert in content-mapped files (#64572)",
+  "expected_D": 4
 }

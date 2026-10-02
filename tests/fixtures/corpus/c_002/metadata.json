@@ -1,6 +1,0 @@
-{
-  "source": "Synthetic fixture representing C constant deletion",
-  "language": "c",
-  "description": "Removed unused BUFFER_SIZE constant",
-  "expected_D": 1
-}

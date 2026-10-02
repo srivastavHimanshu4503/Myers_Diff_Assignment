@@ -1,6 +1,10 @@
 {
-  "source": "Synthetic fixture representing Python import reordering",
+  "id": "py_003",
+  "repo": "pallets/flask",
+  "commit": "2a8a38b",
+  "parent": "d8eaaba824655046958d1a97f11780de460c3271",
+  "path": "src/flask/views.py",
   "language": "python",
-  "description": "Reordered imports alphabetically",
-  "expected_D": 4
+  "description": "support query in methodview",
+  "expected_D": 2
 }

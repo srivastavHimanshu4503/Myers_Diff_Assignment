@@ -1,0 +1,10 @@
+{
+  "id": "js_004",
+  "repo": "nodejs/node",
+  "commit": "a7a97841",
+  "parent": "fbbf534de78f8c4b2eca4f8e86c6af87939fb9d6",
+  "path": "deps/v8/test/mjsunit/immutable-arraybuffer.js",
+  "language": "javascript",
+  "description": "deps: V8: cherry-pick c795f5948568",
+  "expected_D": 44
+}

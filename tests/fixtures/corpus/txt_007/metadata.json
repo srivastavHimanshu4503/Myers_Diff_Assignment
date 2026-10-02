@@ -1,0 +1,10 @@
+{
+  "id": "txt_007",
+  "repo": "git/git",
+  "commit": "1cd6b7de52",
+  "parent": "bca240abc33443ea4bc62d02688725f9d2e2589a",
+  "path": "contrib/buildsystems/CMakeLists.txt",
+  "language": "text",
+  "description": "cmake(windows): accommodate for Git for Windows' migration to UCRT64",
+  "expected_D": 2
+}

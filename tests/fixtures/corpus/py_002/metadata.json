@@ -1,6 +1,10 @@
 {
-  "source": "Synthetic fixture representing Python comment insertion",
+  "id": "py_002",
+  "repo": "pallets/flask",
+  "commit": "d318b68",
+  "parent": "2a8a38b051fc248865730bf3511bf2e2ea325e81",
+  "path": "src/flask/helpers.py",
   "language": "python",
-  "description": "Added explanatory comment",
-  "expected_D": 1
+  "description": "explain seek",
+  "expected_D": 4
 }

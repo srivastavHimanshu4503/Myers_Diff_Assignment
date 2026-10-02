@@ -1,0 +1,10 @@
+{
+  "id": "ts_004",
+  "repo": "microsoft/TypeScript",
+  "commit": "2f10683c4",
+  "parent": "f0101f64370375133bd884b08fb2eb18bccfb12d",
+  "path": "packages/typescript/src/ast/jsdoc.ts",
+  "language": "typescript",
+  "description": "Add getJSDocCommentsAndTags back with functionality of 6.0 (#64455)",
+  "expected_D": 28
+}

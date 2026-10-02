@@ -1,6 +1,10 @@
 {
-  "source": "Synthetic fixture with CRLF line endings",
+  "id": "txt_003",
+  "repo": "git/git",
+  "commit": "312e271fcb",
+  "parent": "b2bc011edd388c3e2f4d7e2b22d3463315faf6d5",
+  "path": "po/AGENTS.md",
   "language": "text",
-  "description": "Modified line in CRLF file",
-  "expected_D": 2
+  "description": "l10n: AGENTS.md: count PO entries with git-po-helper stat -c",
+  "expected_D": 6
 }

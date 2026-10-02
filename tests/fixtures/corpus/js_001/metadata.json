@@ -1,0 +1,10 @@
+{
+  "id": "js_001",
+  "repo": "nodejs/node",
+  "commit": "4486dce7",
+  "parent": "463711aa555f8bdaf72547721a4f4bc27190b67b",
+  "path": "lib/internal/process/task_queues.js",
+  "language": "javascript",
+  "description": "process: use a class for nextTick resources",
+  "expected_D": 21
+}

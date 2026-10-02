@@ -1,6 +1,0 @@
-{
-  "source": "Synthetic fixture representing C++ class field addition",
-  "language": "cpp",
-  "description": "Added capacity field to Container",
-  "expected_D": 3
-}

@@ -1,0 +1,10 @@
+{
+  "id": "txt_006",
+  "repo": "git/git",
+  "commit": "c78ed9e458",
+  "parent": "6fc157174b2342c4cf20ee97e24980cde9759467",
+  "path": "contrib/buildsystems/CMakeLists.txt",
+  "language": "text",
+  "description": "Merge branch 'js/win-cmake-use-ucrt64'",
+  "expected_D": 2
+}

@@ -1,6 +1,10 @@
 {
-  "source": "Synthetic fixture with repeated lines",
+  "id": "txt_002",
+  "repo": "git/git",
+  "commit": "ab902cf3aa",
+  "parent": "312e271fcb8c109d74d1efe627655995b33ca46c",
+  "path": "po/AGENTS.md",
   "language": "text",
-  "description": "Added error line between repeated entries",
-  "expected_D": 1
+  "description": "l10n: AGENTS.md: use JSON intermediates in workflow",
+  "expected_D": 87
 }

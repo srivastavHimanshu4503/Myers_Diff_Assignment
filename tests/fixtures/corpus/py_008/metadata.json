@@ -1,0 +1,10 @@
+{
+  "id": "py_008",
+  "repo": "pallets/flask",
+  "commit": "5ce121d",
+  "parent": "8285adf5a4f572dbf7a0a3b8f3a96ca0b19c50a4",
+  "path": "tests/conftest.py",
+  "language": "python",
+  "description": "Replace the use of private `monkeypatch` fixture API",
+  "expected_D": 43
+}

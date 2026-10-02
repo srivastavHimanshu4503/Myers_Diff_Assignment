@@ -1,0 +1,10 @@
+{
+  "id": "txt_005",
+  "repo": "git/git",
+  "commit": "b758bc5bc4",
+  "parent": "0f8e75abebff0877cae681a3d5ff31ac47f54220",
+  "path": "po/AGENTS.md",
+  "language": "text",
+  "description": "l10n: AGENTS.md: fix counter fallbacks",
+  "expected_D": 10
+}

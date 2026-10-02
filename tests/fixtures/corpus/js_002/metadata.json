@@ -1,0 +1,10 @@
+{
+  "id": "js_002",
+  "repo": "nodejs/node",
+  "commit": "463711aa",
+  "parent": "de073c56faf955fc69dc2db60d1bf5e6d0af2e33",
+  "path": "test/ffi/test-ffi-fast-integer-validation.js",
+  "language": "javascript",
+  "description": "ffi: validate pointer ranges in optimized calls",
+  "expected_D": 10
+}

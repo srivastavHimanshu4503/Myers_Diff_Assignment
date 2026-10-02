@@ -1,6 +1,0 @@
-{
-  "source": "Synthetic fixture representing C function parameter change",
-  "language": "c",
-  "description": "Changed function parameter from int to unsigned",
-  "expected_D": 2
-}

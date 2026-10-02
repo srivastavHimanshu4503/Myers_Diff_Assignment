@@ -1,6 +1,10 @@
 {
-  "source": "Synthetic fixture representing Java method rename",
+  "id": "java_001",
+  "repo": "openjdk/jdk",
+  "commit": "ac4da2a1d",
+  "parent": "e90e46919999fb8e65140efe2d9bb2a870ec99a6",
+  "path": "src/jdk.jfr/share/classes/jdk/jfr/internal/dcmd/DCmdStop.java",
   "language": "java",
-  "description": "Method renamed from add to sum",
-  "expected_D": 2
+  "description": "8392198: JFR: JFR.stop again allows a missing recording name",
+  "expected_D": 8
 }
