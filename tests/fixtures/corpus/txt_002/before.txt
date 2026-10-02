@@ -1,4 +1,0 @@
-INFO: Server started
-INFO: Connection opened
-INFO: Request received
-INFO: Response sent

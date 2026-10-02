@@ -1,0 +1,10 @@
+{
+  "id": "ts_005",
+  "repo": "microsoft/TypeScript",
+  "commit": "145b158cf",
+  "parent": "3ec3c06713dffbfec5543bcee14c13dfc956484b",
+  "path": "tsc/internal/bundled/libs/lib.es5.d.ts",
+  "language": "typescript",
+  "description": "Remove misplaced parameter description from RegExp#source JSDoc (#64352)",
+  "expected_D": 2
+}

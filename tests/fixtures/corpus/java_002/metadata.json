@@ -1,6 +1,10 @@
 {
-  "source": "Synthetic fixture representing Java multiline change",
+  "id": "java_002",
+  "repo": "openjdk/jdk",
+  "commit": "d13fcae6b",
+  "parent": "4464e946a802eb83b54f9a97bbead0e769a7fff5",
+  "path": "src/jdk.jfr/share/classes/jdk/jfr/internal/jfc/model/Utilities.java",
   "language": "java",
-  "description": "Added enabled flag with conditional logging",
-  "expected_D": 6
+  "description": "8393171: JFR: -XX:StartFlightRecording can't handle leading space for jfc option",
+  "expected_D": 7
 }

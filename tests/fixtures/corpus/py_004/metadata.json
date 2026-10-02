@@ -1,6 +1,10 @@
 {
-  "source": "Synthetic fixture representing Python error handling change",
+  "id": "py_004",
+  "repo": "pallets/flask",
+  "commit": "8999295",
+  "parent": "3596b1ab61cea85edb8970e83ff61daa073facf8",
+  "path": "src/flask/sansio/scaffold.py",
   "language": "python",
-  "description": "Changed exception to return default value",
-  "expected_D": 2
+  "description": "add app.query route decorator",
+  "expected_D": 8
 }

@@ -1,8 +1,10 @@
 {
-  "source": "Synthetic fixture representing typical Python constant change pattern",
+  "id": "py_001",
+  "repo": "pallets/flask",
+  "commit": "d73fa1c",
+  "parent": "d318b683471101618febed18996405ad26462110",
+  "path": "src/flask/app.py",
   "language": "python",
-  "description": "Timeout constant changed from 30 to 60",
-  "expected_added": 1,
-  "expected_deleted": 1,
-  "expected_D": 2
+  "description": "fix docs ref",
+  "expected_D": 4
 }

@@ -1,6 +1,0 @@
-{
-  "source": "Synthetic fixture with long line",
-  "language": "c",
-  "description": "Modified very long comment line",
-  "expected_D": 2
-}

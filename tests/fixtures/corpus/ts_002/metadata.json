@@ -1,6 +1,10 @@
 {
-  "source": "Synthetic fixture representing TypeScript refactoring",
+  "id": "ts_002",
+  "repo": "microsoft/TypeScript",
+  "commit": "a4b141023",
+  "parent": "2f9fd09a104ef14268944a0aeb9cdc4d80abb6a6",
+  "path": "tsc/internal/bundled/libs/lib.es2022.array.d.ts",
   "language": "typescript",
-  "description": "Extracted intermediate variable in formatTime",
-  "expected_D": 3
+  "description": "Fix Array.at documentation: change 'code unit' to 'item' (#64536)",
+  "expected_D": 26
 }

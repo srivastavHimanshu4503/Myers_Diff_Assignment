@@ -1,0 +1,10 @@
+{
+  "id": "txt_008",
+  "repo": "git/git",
+  "commit": "bc53d6c795",
+  "parent": "2c78326f810173a4f3aefd8021f1e07575412481",
+  "path": "meson_options.txt",
+  "language": "text",
+  "description": "meson: expose knob for xmlto relative links in manuals",
+  "expected_D": 2
+}

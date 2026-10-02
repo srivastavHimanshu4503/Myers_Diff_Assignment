@@ -1,0 +1,10 @@
+{
+  "id": "java_004",
+  "repo": "openjdk/jdk",
+  "commit": "bd9e82618",
+  "parent": "86e538937adbbcf8c61b1394ede022f5664426b0",
+  "path": "src/java.base/share/classes/sun/nio/ch/FileChannelImpl.java",
+  "language": "java",
+  "description": "8392709: (fc) FileChannelImpl.write(ByteBuffer src, long position) checks FileRe",
+  "expected_D": 2
+}

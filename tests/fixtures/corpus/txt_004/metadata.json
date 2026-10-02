@@ -1,0 +1,10 @@
+{
+  "id": "txt_004",
+  "repo": "git/git",
+  "commit": "b2bc011edd",
+  "parent": "b758bc5bc4b35db0bc807d3ab33cd492e86d6b4d",
+  "path": "po/AGENTS.md",
+  "language": "text",
+  "description": "l10n: AGENTS.md: require git-po-helper >= 0.9.1",
+  "expected_D": 114
+}

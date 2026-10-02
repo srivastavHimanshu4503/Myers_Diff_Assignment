@@ -1,8 +1,0 @@
-{
-  "source": "Synthetic fixture representing C function signature change",
-  "language": "c",
-  "description": "Added const qualifier to parameter",
-  "expected_added": 1,
-  "expected_deleted": 1,
-  "expected_D": 2
-}

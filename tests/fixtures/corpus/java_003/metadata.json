@@ -1,6 +1,10 @@
 {
-  "source": "Synthetic fixture representing Java multiple field modifiers",
+  "id": "java_003",
+  "repo": "openjdk/jdk",
+  "commit": "4464e946a",
+  "parent": "bd9e82618c6415eaa16269e02a78741bb34d1566",
+  "path": "src/jdk.jfr/share/classes/jdk/jfr/internal/query/QueryPrinter.java",
   "language": "java",
-  "description": "Made class final, updated version, made field final",
-  "expected_D": 6
+  "description": "8393377: JFR: Improve documentation for 'jfr query'",
+  "expected_D": 25
 }

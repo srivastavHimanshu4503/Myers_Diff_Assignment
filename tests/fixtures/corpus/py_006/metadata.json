@@ -1,0 +1,10 @@
+{
+  "id": "py_006",
+  "repo": "pallets/flask",
+  "commit": "de8429f",
+  "parent": "514fc6b3e8402e4c646d5284e97a4f0ab50a7c4b",
+  "path": "src/flask/testing.py",
+  "language": "python",
+  "description": "Fix IPv6 session transactions",
+  "expected_D": 2
+}

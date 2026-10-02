@@ -1,6 +1,10 @@
 {
-  "source": "Synthetic fixture representing TypeScript config changes",
+  "id": "ts_003",
+  "repo": "microsoft/TypeScript",
+  "commit": "792ffccb9",
+  "parent": "619d485a639c83a2d82860b5797db4984cecfc91",
+  "path": "tsc/testdata/tests/cases/compiler/importAttributeType1.ts",
   "language": "typescript",
-  "description": "Updated API URL and timeout values",
-  "expected_D": 4
+  "description": "fix: disallow NoSubstitutionTemplate in module import attribute types (#64243)",
+  "expected_D": 2
 }

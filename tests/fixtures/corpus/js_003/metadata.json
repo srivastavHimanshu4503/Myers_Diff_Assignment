@@ -1,0 +1,10 @@
+{
+  "id": "js_003",
+  "repo": "nodejs/node",
+  "commit": "de073c56",
+  "parent": "a7a978415cc690fc1f751800a2a8052d4d02f289",
+  "path": "test/ffi/test-ffi-memory.js",
+  "language": "javascript",
+  "description": "ffi: throw on allocation failure in toArrayBuffer()",
+  "expected_D": 11
+}

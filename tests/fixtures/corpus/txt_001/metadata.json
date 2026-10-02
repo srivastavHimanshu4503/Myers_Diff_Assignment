@@ -1,8 +1,10 @@
 {
-  "source": "Synthetic fixture with no final newline in original",
+  "id": "txt_001",
+  "repo": "git/git",
+  "commit": "54c2884e8b",
+  "parent": "ab902cf3aa76c3e654cb8b6bb7194e6e32197375",
+  "path": "po/AGENTS.md",
   "language": "text",
-  "description": "README update, no final newline in before",
-  "expected_added": 1,
-  "expected_deleted": 1,
-  "expected_D": 2
+  "description": "l10n: AGENTS.md: zsh-safe review result cleanup",
+  "expected_D": 7
 }
