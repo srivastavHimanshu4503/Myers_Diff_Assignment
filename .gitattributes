@@ -1,0 +1,4 @@
+# Fixtures must be stored and checked out byte-for-byte: CRLF line endings
+# and missing final newlines are part of what the diff engine is tested on,
+# so Git's end-of-line conversion (core.autocrlf) must never touch them.
+tests/fixtures/** -text
