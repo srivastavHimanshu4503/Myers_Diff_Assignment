@@ -164,3 +164,96 @@ def test_render_fixtures(lang, fixture):
     
     expected = read_file(str(expected_path))
     assert result == expected, f"Mismatch for {lang}/{fixture}"
+
+
+
+# ============================================================================
+# Part B (character-level highlighting) tests
+# ============================================================================
+
+
+from diff_engine.line_diff import Block, diff_lines, split_lines, read_file
+from diff_engine.renderer import render_char_diff
+
+
+def test_render_char_diff_spec_example_8000_to_8080():
+    # Spec §17: timeout = 8000 → timeout = 8080
+    old = "timeout = 8000"
+    new = "timeout = 8080"
+    
+    # Create a change block
+    block = Block(equal_lines=[], deleted_lines=[old], inserted_lines=[new])
+    result = render_char_diff([block], True, True)
+    
+    # Should have inline markers around the changed character(s)
+    assert "[-" in result
+    assert "{+" in result
+    assert "timeout" in result
+
+
+def test_render_char_diff_unpaired_lines():
+    # 3 deletes, 1 insert: first pair gets highlights, rest are unpaired
+    block = Block(
+        equal_lines=[],
+        deleted_lines=["old1", "old2", "old3"],
+        inserted_lines=["new1"],
+    )
+    result = render_char_diff([block], True, True)
+    
+    lines = result.strip().split("\n")
+    # Should have 4 lines: paired old1/new1 with markers, unpaired old2/old3 without
+    assert len(lines) == 4
+    # First two lines (paired) should have markers
+    assert "[-" in lines[0] or "{+" in lines[0] or lines[0].startswith("- old1")
+    # Last two lines (unpaired) should not have markers
+    assert "[-" not in lines[2] and "{+" not in lines[2]
+    assert "[-" not in lines[3] and "{+" not in lines[3]
+
+
+def test_render_char_diff_equal_block():
+    block = Block(equal_lines=["same line"], deleted_lines=[], inserted_lines=[])
+    result = render_char_diff([block], True, True)
+    assert result == "  same line\n"
+
+
+def test_render_char_diff_missing_newline():
+    block = Block(equal_lines=[], deleted_lines=["old"], inserted_lines=["new"])
+    result = render_char_diff([block], a_ends_with_newline=False, b_ends_with_newline=True)
+    assert r"\ No newline at end of file" in result
+    # Should appear after the delete line
+    lines = result.strip().split("\n")
+    assert len(lines) == 3  # delete, marker, insert
+
+
+@pytest.mark.parametrize(
+    ("lang", "fixture"),
+    [
+        ("python", "constant"),
+        ("python", "operator"),
+    ],
+)
+def test_render_char_diff_fixtures(lang, fixture):
+    """Test Part B on fixtures (Python only for now)."""
+    fixtures_dir = Path(__file__).parent / "fixtures" / lang
+    ext = {"python": "py", "java": "java", "cpp": "cpp"}[lang]
+    
+    a_path = fixtures_dir / f"{fixture}_a.{ext}"
+    b_path = fixtures_dir / f"{fixture}_b.{ext}"
+    
+    a_text = read_file(str(a_path))
+    b_text = read_file(str(b_path))
+    
+    a_lines, a_eol = split_lines(a_text)
+    b_lines, b_eol = split_lines(b_text)
+    
+    edits = diff_lines(a_lines, b_lines)
+    
+    # Group edits into blocks
+    from diff_engine.line_diff import group_edits
+    blocks = group_edits(edits)
+    
+    result = render_char_diff(blocks, a_eol, b_eol)
+    
+    # Should contain character markers
+    if any(block.deleted_lines and block.inserted_lines for block in blocks):
+        assert "[-" in result or "{+" in result
