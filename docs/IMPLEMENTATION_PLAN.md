@@ -6,7 +6,11 @@ Sources: `CLAUDE.md` (rules, binding) and `myers_diff_project_full_spec.md`
 ## 0. Ground rules applied to every phase
 
 - One milestone at a time (P-1 → P-4); one phase = one issue = one branch = one PR.
-- Branch: `m<milestone>/p<phase>-<issue#>-<slug>` from latest `origin/main`.
+- Branch: `m<milestone>/p<milestone>-<issue#>-<slug>` from latest `origin/main`.
+  `p` is the CLAUDE.md roadmap item (P-1..P-4), not the sub-phase, so every
+  phase of milestone 1 uses `m1/p1-…` (e.g. P1.2 → `m1/p1-3-edit-model`).
+- Gate: a phase starts only after its design is approved **and** the previous
+  phase's PR is merged. Its issue is created at that point, one per phase.
 - Before code: mini-spec (Goal / Input / Output / Behaviour / Invariants /
   Acceptance / Tests) posted on the issue.
 - After code: run tests, report the CLAUDE.md §20 Change Manifest, stop and wait
@@ -219,27 +223,29 @@ termination, backtracking and tie-breaking.
 
 ---
 
-## 3. Issue list (create on GitHub with permission)
+## 3. Issue list (one issue per phase, created after design approval)
 
-| Issue | Branch | Title |
-|-------|--------|-------|
-| 1 | `m1/p1-1-scaffolding` | Project scaffolding and CI |
-| 2 | `m1/p2-2-edit-model` | Edit model and test oracles |
-| 3 | `m1/p3-3-forward-search` | Myers forward search |
-| 4 | `m1/p4-4-backtracking` | Myers backtracking and public API |
-| 5 | `m1/p5-5-adversarial` | Adversarial review of Myers core |
-| 6 | `m2/p1-6-line-split` | File reading and line splitting |
-| 7 | `m2/p2-7-line-diff` | Line diff and change-block grouping |
-| 8 | `m2/p3-8-part-a-render` | Part A renderer and fixtures |
-| 9 | `m3/p1-9-pairing` | Changed-line pairing |
-| 10 | `m3/p2-10-char-ranges` | Character-level ranges |
-| 11 | `m3/p3-11-part-b-render` | Part B renderer |
-| 12 | `m4/p1-12-cli` | CLI and exit codes |
-| 13 | `m4/p2-13-corpus` | Real-world corpus tests |
-| 14 | `m4/p3-14-perf` | Performance measurement |
-| 15 | `m4/p4-15-docs` | README and final checklist |
+| Phase | Issue | PR | Branch | Title |
+|-------|-------|----|--------|-------|
+| P1.1 | #1 | #2 (merged) | `m1/p1-1-scaffolding` | Project scaffolding and CI |
+| P1.2 | #3 | #4 (merged) | `m1/p1-3-edit-model` | Edit model and test oracles |
+| docs | #5 | this PR | `m1/p1-5-plan-branch-names` | Align plan branch names and issue table |
+| P1.3 | TBD | TBD | `m1/p1-<issue#>-forward-search` | Myers forward search |
+| P1.4 | TBD | TBD | `m1/p1-<issue#>-backtracking` | Myers backtracking and public API |
+| P1.5 | TBD | TBD | `m1/p1-<issue#>-adversarial` | Adversarial review of Myers core |
+| P2.1 | TBD | TBD | `m2/p2-<issue#>-line-split` | File reading and line splitting |
+| P2.2 | TBD | TBD | `m2/p2-<issue#>-line-diff` | Line diff and change-block grouping |
+| P2.3 | TBD | TBD | `m2/p2-<issue#>-part-a-render` | Part A renderer and fixtures |
+| P3.1 | TBD | TBD | `m3/p3-<issue#>-pairing` | Changed-line pairing |
+| P3.2 | TBD | TBD | `m3/p3-<issue#>-char-ranges` | Character-level ranges |
+| P3.3 | TBD | TBD | `m3/p3-<issue#>-part-b-render` | Part B renderer |
+| P4.1 | TBD | TBD | `m4/p4-<issue#>-cli` | CLI and exit codes |
+| P4.2 | TBD | TBD | `m4/p4-<issue#>-corpus` | Real-world corpus tests |
+| P4.3 | TBD | TBD | `m4/p4-<issue#>-perf` | Performance measurement |
+| P4.4 | TBD | TBD | `m4/p4-<issue#>-docs` | README and final checklist |
 
-(Issue numbers are placeholders until the issues exist.)
+GitHub shares one number sequence between issues and PRs, so future issue
+numbers are filled in when each issue is created.
 
 ## 4. Risk → mitigation (spec §50)
 
