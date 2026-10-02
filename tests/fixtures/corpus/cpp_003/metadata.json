@@ -1,0 +1,9 @@
+{
+  "repo": "https://github.com/nlohmann/json",
+  "commit": "3926fca",
+  "parent": "18dd5663b0c09ddca3ac0849f6ae7346e1f6ce0f",
+  "path": "include/nlohmann/detail/output/binary_writer.hpp",
+  "language": "cpp",
+  "description": "Deduplicate serializer dump code; fix stale includes, docs, and lint (#5729)",
+  "expected_D": 13
+}

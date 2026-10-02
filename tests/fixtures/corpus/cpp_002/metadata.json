@@ -1,0 +1,9 @@
+{
+  "repo": "https://github.com/nlohmann/json",
+  "commit": "cff0a61",
+  "parent": "3926fcaac3e18eee169c3df02f9f68bcab528fcc",
+  "path": "include/nlohmann/detail/input/binary_reader.hpp",
+  "language": "cpp",
+  "description": "Share DOM SAX position handling; fix stale parser and lexer comments (#5731)",
+  "expected_D": 14
+}

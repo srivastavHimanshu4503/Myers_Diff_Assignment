@@ -1,0 +1,9 @@
+{
+  "repo": "https://github.com/git/git",
+  "commit": "0e75d17ff7",
+  "parent": "3cb9185f65410273787f74333cc027d2ea5daada",
+  "path": "builtin/history.c",
+  "language": "c",
+  "description": "builtin/history: unuse the commit buffer after use",
+  "expected_D": 1
+}

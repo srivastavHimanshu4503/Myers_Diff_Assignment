@@ -1,0 +1,9 @@
+{
+  "repo": "https://github.com/nlohmann/json",
+  "commit": "6aec1a0",
+  "parent": "11e75a54280b3474cb18c2f24d42660dc385596d",
+  "path": "include/nlohmann/detail/input/binary_reader.hpp",
+  "language": "cpp",
+  "description": "Report BON8 input that ends after a UTF-8 lead byte as truncated (#5677)",
+  "expected_D": 11
+}
