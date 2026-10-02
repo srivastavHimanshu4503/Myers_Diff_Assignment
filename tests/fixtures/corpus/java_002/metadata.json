@@ -1,0 +1,6 @@
+{
+  "source": "Synthetic fixture representing Java multiline change",
+  "language": "java",
+  "description": "Added enabled flag with conditional logging",
+  "expected_D": 6
+}

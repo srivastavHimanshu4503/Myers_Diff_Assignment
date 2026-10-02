@@ -1,0 +1,6 @@
+{
+  "source": "Synthetic fixture with CRLF line endings",
+  "language": "text",
+  "description": "Modified line in CRLF file",
+  "expected_D": 2
+}

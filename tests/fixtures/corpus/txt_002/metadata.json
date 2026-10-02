@@ -1,0 +1,6 @@
+{
+  "source": "Synthetic fixture with repeated lines",
+  "language": "text",
+  "description": "Added error line between repeated entries",
+  "expected_D": 1
+}

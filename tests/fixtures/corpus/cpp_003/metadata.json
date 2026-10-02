@@ -1,0 +1,6 @@
+{
+  "source": "Synthetic fixture representing namespace addition",
+  "language": "cpp",
+  "description": "Wrapped function in namespace",
+  "expected_D": 2
+}
