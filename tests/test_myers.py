@@ -2,8 +2,142 @@ import random
 
 import pytest
 
-from diff_engine.myers import _forward_trace
-from oracles import minimum_edit_distance
+from diff_engine.myers import _forward_trace, myers_diff
+from oracles import minimum_edit_distance, replay
+
+
+def count_edits(edits) -> int:
+    """Count non-equal operations in an edit script."""
+    return sum(1 for e in edits if e.operation != "equal")
+
+
+# ============================================================================
+# Public API tests (myers_diff)
+# ============================================================================
+
+
+def test_myers_diff_golden_script():
+    # Myers' 1986 paper example with the confirmed D1 tie-breaking rule.
+    a = "ABCABBA"
+    b = "CBABAC"
+    edits = myers_diff(a, b)
+
+    # The exact script is deterministic with the D1 rule.
+    operations = [(e.operation, e.value) for e in edits]
+    expected = [
+        ("delete", "A"),
+        ("delete", "B"),
+        ("equal", "C"),
+        ("insert", "B"),
+        ("equal", "A"),
+        ("equal", "B"),
+        ("delete", "B"),
+        ("equal", "A"),
+        ("insert", "C"),
+    ]
+    assert operations == expected
+
+
+@pytest.mark.parametrize(
+    ("a", "b"),
+    [
+        ([], []),
+        ("", ""),
+        ("abc", "abc"),
+        (["a", "b", "c"], ["a", "b", "c"]),
+        (["a"], ["a", "b"]),
+        ("a", "ab"),
+        (["a", "b"], ["a"]),
+        ("ab", "a"),
+        (["a"], ["b"]),
+        ("a", "b"),
+        ("aaa", "aa"),
+        ("aba", "bab"),
+        ("abc", "xyz"),
+        (["line"] * 10000 + ["old"], ["line"] * 10000 + ["new"]),
+        (["old"] + ["line"] * 10000, ["new"] + ["line"] * 10000),
+    ],
+)
+def test_myers_diff_replay_invariant(a, b):
+    edits = myers_diff(a, b)
+    ra, rb = replay(edits)
+    assert (ra, rb) == (list(a), list(b))
+
+
+@pytest.mark.parametrize(
+    ("a", "b"),
+    [
+        ([], []),
+        ("", ""),
+        ("abc", "abc"),
+        (["a", "b", "c"], ["a", "b", "c"]),
+        (["a"], ["a", "b"]),
+        ("a", "ab"),
+        (["a", "b"], ["a"]),
+        ("ab", "a"),
+        (["a"], ["b"]),
+        ("a", "b"),
+        ("aaa", "aa"),
+        ("aba", "bab"),
+        ("abc", "xyz"),
+        (["line"] * 10000 + ["old"], ["line"] * 10000 + ["new"]),
+        (["old"] + ["line"] * 10000, ["new"] + ["line"] * 10000),
+    ],
+)
+def test_myers_diff_edit_count_is_minimal(a, b):
+    edits = myers_diff(a, b)
+    assert count_edits(edits) == minimum_edit_distance(a, b)
+
+
+def test_myers_diff_on_random_pairs():
+    rng = random.Random(0)
+    for _ in range(2000):
+        alphabet_size = rng.randint(1, 4)
+        alphabet = "abcd"[:alphabet_size]
+        a = "".join(rng.choice(alphabet) for _ in range(rng.randint(0, 8)))
+        b = "".join(rng.choice(alphabet) for _ in range(rng.randint(0, 8)))
+
+        edits = myers_diff(a, b)
+        ra, rb = replay(edits)
+        assert (ra, rb) == (list(a), list(b)), (a, b)
+        assert count_edits(edits) == minimum_edit_distance(a, b), (a, b)
+
+
+def test_myers_diff_identical_inputs_all_equal():
+    a = ["a", "b", "c"]
+    b = ["a", "b", "c"]
+    edits = myers_diff(a, b)
+    assert all(e.operation == "equal" for e in edits)
+    assert len(edits) == 3
+
+
+def test_myers_diff_empty_to_empty():
+    assert myers_diff([], []) == []
+
+
+def test_myers_diff_one_empty():
+    edits_del = myers_diff(["a"], [])
+    assert len(edits_del) == 1
+    assert edits_del[0].operation == "delete"
+
+    edits_ins = myers_diff([], ["a"])
+    assert len(edits_ins) == 1
+    assert edits_ins[0].operation == "insert"
+
+
+def test_myers_diff_is_deterministic():
+    a = "aba"
+    b = "bab"
+    edits1 = myers_diff(a, b)
+    edits2 = myers_diff(a, b)
+    assert edits1 == edits2
+
+
+# ============================================================================
+# Forward trace tests (unchanged from P1.3)
+# ============================================================================
+
+
 
 
 def test_golden_trace_for_myers_paper_example():

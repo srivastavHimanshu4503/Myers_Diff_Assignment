@@ -3,6 +3,8 @@
 from collections.abc import Sequence
 from typing import TypeVar
 
+from diff_engine.models import Edit
+
 T = TypeVar("T")
 
 
@@ -67,3 +69,80 @@ def _forward_trace(a: Sequence[T], b: Sequence[T]) -> list[list[int]]:
 
     # Myers' algorithm must reach (N, M) within N + M rounds.
     raise AssertionError("Myers search exceeded N + M rounds")
+
+
+def _backtrack(trace: list[list[int]], a: Sequence[T], b: Sequence[T]) -> list[Edit[T]]:
+    """Reconstruct the minimal edit script by walking the trace backwards.
+
+    Starts at (N, M) and works back to (0, 0), emitting the operations that
+    transform A into B. Uses the same tie-breaking rule as the forward search
+    so both halves agree on which path was taken.
+    """
+    n, m = len(a), len(b)
+    x, y = n, m
+    edits: list[Edit[T]] = []
+
+    # Walk backwards from round D (len(trace)) to round 1.
+    # At each step, we're at a point reached during round d+1 and finding
+    # the predecessor from round d.
+    for d in range(len(trace), 0, -1):
+        k = x - y
+
+        # Determine the predecessor using the same rule as the forward search.
+        # We look at round d-1's snapshot to find where we came from.
+        prev_d = d - 1
+        if k == -d or (k != d and _furthest_x(trace[prev_d], k - 1) < _furthest_x(trace[prev_d], k + 1)):
+            prev_k = k + 1  # came from k+1 (down: insert)
+        else:
+            prev_k = k - 1  # came from k-1 (right: delete)
+
+        prev_x = _furthest_x(trace[prev_d], prev_k)
+        prev_y = prev_x - prev_k
+
+        # Walk back along the diagonal snake (matching elements).
+        while x > prev_x and y > prev_y:
+            x -= 1
+            y -= 1
+            edits.append(Edit("equal", a[x]))
+
+        # Record the single non-diagonal move.
+        if x == prev_x:
+            # Vertical: insert b[prev_y].
+            edits.append(Edit("insert", b[prev_y]))
+        else:
+            # Horizontal: delete a[prev_x].
+            edits.append(Edit("delete", a[prev_x]))
+
+        x, y = prev_x, prev_y
+
+    # Back at (0, 0). If there's a shared prefix, add it.
+    while x > 0:
+        x -= 1
+        y -= 1
+        edits.append(Edit("equal", a[x]))
+
+    # Backtracking built the script in reverse.
+    edits.reverse()
+    return edits
+
+
+def myers_diff(a: Sequence[T], b: Sequence[T]) -> list[Edit[T]]:
+    """Return the minimal edit script transforming A into B.
+
+    The result is a sequence of ``Edit`` operations (equal, insert, delete)
+    such that reading the ``equal`` and ``delete`` values reconstructs A,
+    and reading the ``equal`` and ``insert`` values reconstructs B.
+
+    When multiple minimal scripts exist, this implementation prefers deletions
+    before insertions (the D1 tie-breaking rule confirmed in §44.1).
+
+    Works on any sequences whose elements support ``==``, including strings,
+    lists of lines, and lists of characters, making it reusable for both
+    line-level and character-level diffs.
+    """
+    trace = _forward_trace(a, b)
+    if not trace:
+        # Identical sequences: D = 0, no rounds saved.
+        # Return an all-equal script directly.
+        return [Edit("equal", item) for item in a]
+    return _backtrack(trace, a, b)
