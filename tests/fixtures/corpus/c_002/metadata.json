@@ -1,0 +1,9 @@
+{
+  "repo": "https://github.com/git/git",
+  "commit": "c090a2363c",
+  "parent": "3bbb0864a27bcbc0d31539431ac65916ba197d1d",
+  "path": "builtin/receive-pack.c",
+  "language": "c",
+  "description": "receive-pack: coccinelle fix",
+  "expected_D": 3
+}

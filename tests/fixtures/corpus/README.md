@@ -1,6 +1,6 @@
 # Real-World Corpus Test Fixtures
 
-This directory contains **29 genuine before/after file pairs** extracted from actual commits in public open-source repositories. These fixtures validate the Myers diff engine against real-world changes.
+This directory contains **36 genuine before/after file pairs** extracted from actual commits in public open-source repositories. These fixtures validate the Myers diff engine against real-world changes.
 
 ## Repositories and Coverage
 
@@ -9,9 +9,13 @@ This directory contains **29 genuine before/after file pairs** extracted from ac
 | Text (.txt, .md) | 8 | git/git |
 | Python (.py) | 8 | pallets/flask |
 | TypeScript (.ts) | 5 | microsoft/TypeScript |
+| **C (.c, .h)** | **4** | **git/git** |
 | Java (.java) | 4 | openjdk/jdk |
 | JavaScript (.js) | 4 | nodejs/node |
-| **Total** | **29** | **5 repositories** |
+| **C++ (.hpp, .cpp)** | **3** | **nlohmann/json** |
+| **Total** | **36** | **6 repositories** |
+
+All six required file types (.txt, .py, .c, .cpp, .java, .ts) are covered.
 
 ## Fixture Structure
 
@@ -54,6 +58,8 @@ The corpus test (`tests/test_corpus.py`) verifies for each fixture:
 2. **Oracle agreement**: `D == minimum_edit_distance(before, after)` (independent LCS-based calculation)
 3. **Replay correctness**: `replay(our_edits) == (before_lines, after_lines)`
 
+All 239 tests pass (202 core + 37 corpus).
+
 ## Real-World Patterns Tested
 
 These genuine commits cover:
@@ -89,12 +95,20 @@ All fixtures were extracted programmatically from cloned repositories using Git 
 
 ## Fixture Collection
 
-Fixtures were collected using `extract_corpus.py` (development tool, not shipped):
+Fixtures were collected from:
 
+1. **git/git**: Text and C files (depth-150 clone)
+2. **pallets/flask**: Python files (depth-150 clone)
+3. **microsoft/TypeScript**: TypeScript files (depth-150 clone)
+4. **openjdk/jdk**: Java files (depth-150 clone)
+5. **nodejs/node**: JavaScript files (depth-150 clone)
+6. **nlohmann/json**: C++ header files (depth-150 clone)
+
+Extraction process:
 1. Clone repositories with `--depth 150 --single-branch`
-2. Find commits modifying 1-3 files matching target extensions
+2. Find commits modifying 1-10 files matching target extensions
 3. Extract before (parent) and after (commit) content via `git show`
 4. Calculate expected_D using our diff engine
 5. Store with full provenance metadata
 
-Total collection time: ~5 minutes for all 5 repositories.
+Total collection time: ~10 minutes for all 6 repositories.

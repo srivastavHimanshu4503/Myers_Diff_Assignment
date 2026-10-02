@@ -1,0 +1,9 @@
+{
+  "repo": "https://github.com/git/git",
+  "commit": "d8e4585822",
+  "parent": "e9019fcafe0040228b8631c30f97ae1adb61bcdc",
+  "path": "refs/files-backend.c",
+  "language": "c",
+  "description": "refs/files: avoid packed-refs lock for root ref deletion",
+  "expected_D": 8
+}
