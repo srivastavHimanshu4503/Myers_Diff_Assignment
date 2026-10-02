@@ -3,7 +3,7 @@ from pathlib import Path
 
 import pytest
 
-from diff_engine.line_diff import DiffInputError, read_file, split_lines
+from diff_engine.line_diff import DiffInputError, read_file, split_lines, diff_lines, group_edits
 
 
 # ============================================================================
@@ -106,3 +106,126 @@ def test_read_file_invalid_utf8():
             read_file(path)
     finally:
         Path(path).unlink()
+
+
+
+
+# ============================================================================
+# diff_lines and group_edits tests (P2.2)
+# ============================================================================
+
+
+def test_diff_lines_empty():
+    edits = diff_lines([], [])
+    assert edits == []
+
+
+def test_diff_lines_identical():
+    a = ["a", "b", "c"]
+    b = ["a", "b", "c"]
+    edits = diff_lines(a, b)
+    assert all(e.operation == "equal" for e in edits)
+    assert [e.value for e in edits] == a
+
+
+def test_diff_lines_spec_section_4_minimality_example():
+    # Spec §4: ["a","b","c","d"] vs ["a","b","X","c","d"] should use minimal edits.
+    a = ["a", "b", "c", "d"]
+    b = ["a", "b", "X", "c", "d"]
+    edits = diff_lines(a, b)
+    
+    # Should be: equal a, equal b, insert X, equal c, equal d (1 insert, no deletes)
+    operations = [e.operation for e in edits]
+    assert operations.count("delete") == 0
+    assert operations.count("insert") == 1
+    assert operations.count("equal") == 4
+
+
+def test_diff_lines_spec_section_15_example():
+    # Spec §15: changing "return x * x" to "return x ** 2"
+    a = ["def square(x):", "    return x * x"]
+    b = ["def square(x):", "    return x ** 2"]
+    edits = diff_lines(a, b)
+    
+    operations = [e.operation for e in edits]
+    assert operations == ["equal", "delete", "insert"]
+
+
+def test_group_edits_empty():
+    blocks = group_edits([])
+    assert blocks == []
+
+
+def test_group_edits_all_equal():
+    from diff_engine.models import Edit
+    edits = [Edit("equal", "a"), Edit("equal", "b"), Edit("equal", "c")]
+    blocks = group_edits(edits)
+    assert len(blocks) == 1
+    assert blocks[0].equal_lines == ["a", "b", "c"]
+    assert blocks[0].deleted_lines == []
+    assert blocks[0].inserted_lines == []
+
+
+def test_group_edits_spec_section_4():
+    # equal, equal, delete, insert, equal, equal
+    from diff_engine.models import Edit
+    edits = [
+        Edit("equal", "a"),
+        Edit("equal", "b"),
+        Edit("delete", "c"),
+        Edit("insert", "X"),
+        Edit("equal", "c"),
+        Edit("equal", "d"),
+    ]
+    blocks = group_edits(edits)
+    
+    assert len(blocks) == 3
+    # Block 0: equal a, b
+    assert blocks[0].equal_lines == ["a", "b"]
+    assert blocks[0].deleted_lines == []
+    assert blocks[0].inserted_lines == []
+    # Block 1: delete c, insert X
+    assert blocks[1].equal_lines == []
+    assert blocks[1].deleted_lines == ["c"]
+    assert blocks[1].inserted_lines == ["X"]
+    # Block 2: equal c, d
+    assert blocks[2].equal_lines == ["c", "d"]
+    assert blocks[2].deleted_lines == []
+    assert blocks[2].inserted_lines == []
+
+
+def test_group_edits_adjacent_changes():
+    # Two deletes followed by two inserts should form one change block.
+    from diff_engine.models import Edit
+    edits = [
+        Edit("delete", "a"),
+        Edit("delete", "b"),
+        Edit("insert", "x"),
+        Edit("insert", "y"),
+    ]
+    blocks = group_edits(edits)
+    
+    assert len(blocks) == 1
+    assert blocks[0].equal_lines == []
+    assert blocks[0].deleted_lines == ["a", "b"]
+    assert blocks[0].inserted_lines == ["x", "y"]
+
+
+def test_group_edits_separated_changes():
+    # change, equal, change should form three blocks.
+    from diff_engine.models import Edit
+    edits = [
+        Edit("delete", "a"),
+        Edit("insert", "x"),
+        Edit("equal", "b"),
+        Edit("delete", "c"),
+        Edit("insert", "y"),
+    ]
+    blocks = group_edits(edits)
+    
+    assert len(blocks) == 3
+    assert blocks[0].deleted_lines == ["a"]
+    assert blocks[0].inserted_lines == ["x"]
+    assert blocks[1].equal_lines == ["b"]
+    assert blocks[2].deleted_lines == ["c"]
+    assert blocks[2].inserted_lines == ["y"]
