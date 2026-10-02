@@ -1,0 +1,6 @@
+  #include <iostream>
+  
+  int calculate(int x) {
+-     return x * 10;
++     return x * 20;
+  }

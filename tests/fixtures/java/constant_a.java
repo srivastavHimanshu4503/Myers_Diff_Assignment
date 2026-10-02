@@ -1,0 +1,5 @@
+public class Calculator {
+    public int calculate(int x) {
+        return x * 10;
+    }
+}
